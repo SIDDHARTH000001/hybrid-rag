@@ -114,4 +114,5 @@ streamlit run frontend_app.py
 
 
 ## future enhancemnet 
-- multiple queries can b
+- for better retrival of exact context Query Expansion can be used.
+- GraphRAG can be used for effective retrival of context.
