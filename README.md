@@ -6,12 +6,12 @@ A Retrieval Augmented Generation (RAG) pipeline featuring hybrid search (BM25 + 
 # Project Setup and Run Guide
 
 ## Prerequisites
-- Python 3.12
 - pip
 - uv
 - Streamlit (installed via requirements.txt)
 - Azure OpenAI credentials
 - or Google Gemini key
+- Python 3.12.12
 
 ---
 
@@ -23,7 +23,7 @@ git clone https://github.com/SIDDHARTH000001/hybrid-rag.git
 cd hybrid-rag
 
 ### 2. Create a Virtual Environment using uv
-uv venv 
+uv venv --python=3.12.12
 
 ### 3. Activate the Virtual Environment
 
@@ -34,10 +34,10 @@ Windows:
 .venv\\Scripts\\activate
 
 ### 4. Install Dependencies
-uv pip install -r requirements.txt
+uv pip install -r requirements.txt --link-mode=copy
 
 ### 5. Configure the Project
-- Create or update config.yaml
+- update config.yaml
 - Add LLM model name, API keys, and required paths
     Options:
     - gcp
@@ -56,6 +56,12 @@ python main.py
 streamlit run frontend_app.py
 
 ---
+
+### 3. upload the documents
+
+#### 4. click on Process Documents
+
+### 5. Ask questions
 
 ### Examples queries
 
@@ -105,3 +111,7 @@ streamlit run frontend_app.py
 - Backend must be running before starting the frontend
 - Always activate the virtual environment before running commands
 - Stop services using CTRL+C
+
+
+## future enhancemnet 
+- multiple queries can b

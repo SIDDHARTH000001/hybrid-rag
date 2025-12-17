@@ -15,44 +15,11 @@ from backend.vector_store import FAISSVectorStore
 from backend.bm25_retriever import BM25Retriever
 from backend.hybrid_search import HybridSearcher
 from backend.rag_graph import RAGGraph
-
-app = FastAPI(
-    title="RAG Pipeline API",
-    version="2.0.0"
-)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-class AppState:
-    """Application state."""
-    config = None
-    embedding_model = None
-    vector_store = None
-    bm25_retriever = None
-    hybrid_searcher = None
-    rag_graph = None
-    document_processor = None
-    document_loaded = False
-    current_document = None
-
-state = AppState()
-
-class StatusResponse(BaseModel):
-    """Status response model."""
-    status: str
-    document_loaded: bool
-    current_document: Optional[str]
-    total_chunks: int
+from contextlib import asynccontextmanager
 
 
-@app.on_event("startup")
-async def startup_event():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     print("Starting RAG Pipeline Backend...")
     
     state.config = get_config()
@@ -117,14 +84,49 @@ async def startup_event():
     print(f"Hybrid Weights: BM25={state.config.hybrid_search.bm25_weight}, Semantic={state.config.hybrid_search.semantic_weight}")
     print("=" * 50)
 
+    yield 
 
-# @app.get("/")
-# async def root():
-#     return {
-#         "message": "RAG Pipeline API - WebSocket Edition",
-#         "version": "2.0.0",
-#         "status": "running"
-#     }
+    print("Shutting down RAG Pipeline Backend...")
+
+
+
+
+app = FastAPI(
+    title="RAG Pipeline API",
+    version="2.0.0",
+    lifespan=lifespan
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class AppState:
+    """Application state."""
+    config = None
+    embedding_model = None
+    vector_store = None
+    bm25_retriever = None
+    hybrid_searcher = None
+    rag_graph = None
+    document_processor = None
+    document_loaded = False
+    current_document = None
+
+state = AppState()
+
+class StatusResponse(BaseModel):
+    """Status response model."""
+    status: str
+    document_loaded: bool
+    current_document: Optional[str]
+    total_chunks: int
+
+
 
 
 @app.get("/health")
@@ -281,6 +283,7 @@ async def websocket_query(websocket: WebSocket):
 
 
 if __name__ == "__main__":
+    print("It might take few minutes to download the Embedding model...")
     config = get_config()
     
     uvicorn.run(
