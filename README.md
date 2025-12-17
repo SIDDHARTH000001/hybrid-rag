@@ -1,4 +1,4 @@
-# RAG Pipeline with Hybrid Search - Separate Services Architecture
+# RAG Pipeline with Hybrid Search
 
 A Retrieval Augmented Generation (RAG) pipeline featuring hybrid search (BM25 + semantic), intelligent tool-based retrieval, LangGraph orchestration, and Gemini LLM / Azure OpenAI.
 
