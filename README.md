@@ -10,6 +10,8 @@ A Retrieval Augmented Generation (RAG) pipeline featuring hybrid search (BM25 + 
 - pip
 - uv
 - Streamlit (installed via requirements.txt)
+- Azure OpenAI credentials
+- or Google Gemini key
 
 ---
 
@@ -68,7 +70,14 @@ streamlit run frontend_app.py
   - is EDGE MARVEL aviable in Fossil Steel color?
 
 ---
+### Sample Output
 
+![output](output/image_0.png)
+![output](output/image_1.png)
+![output](output/image_2.png)
+![output](output/image_3.png)
+
+---
 
 ## Architecture Overview
 
